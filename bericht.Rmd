@@ -19,6 +19,8 @@ source('karten/karten.R')
 
 ## Die Kommunen in NRW sind in Finanznot ...
 
+https://github.com/aleininger/duisburch_hack
+
 ```{r f_verschuldung, fig.cap='Verschuldung pro Kopf in den Kommunen (Euro)', cache=TRUE}
 
 p_verschuldung
