@@ -1,0 +1,77 @@
+---
+title: "Kommunen am Abgrund"
+author: "Arndt Leininger"
+date: "June 11, 2016"
+output: 
+  html_document:
+    fig_caption: true
+---
+
+```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+library(xtable)
+
+load('daten/daten.RData')
+source('karten/karten.R')
+
+```
+
+## Die Kommunen in NRW sind in Finanznot ...
+
+```{r f_verschuldung, fig.cap='Verschuldung pro Kopf in den Kommunen (Euro)', cache=TRUE}
+
+p_verschuldung
+```
+
+```{r, f_gemeinde_stadt_verschuldung, fig.cap='Die Verschuldung pro Kopf (Euro) in Gemeinden und kreisfreien Städten.', cache=TRUE}
+source('graphiken/f_gemeinde_stadt_verschuldung.R')
+
+p_gemeinde_stadt_verschuldung
+```
+
+```{r f_verschuldung_bevoelkerung, cache = TRUE}
+source('graphiken/f_verschuldung_bevoelkerung.R')
+
+p_verschuldung_bevoelkerung
+```
+
+# ... und dann kommt die EU mit der Gießkanne?
+
+```{r f_erfe, cache = TRUE}
+p_erfe
+```
+
+```{r t_investitionen, results='asis'}
+
+sub <- d[which(d$erhalten == T & !is.na(d$kreisfrei)), 
+         c('gebietsname', 'gesamtinvestition')]
+sub <- sub[order(sub$gesamtinvestition, decreasing = T), ]
+rownames(sub) <- 1:nrow(sub)
+
+xsub <- xtable(sub)
+
+print(xsub, type = 'html')
+
+```
+
+```{r t_logit, results='asis'}
+source('skripte/analyse.R')
+
+htmlreg(list(m1, m2, m3), digits = 3)
+```
+
+```{r f_pp_totalPP}
+f_pp_totalPP
+
+```
+
+```{r f_pp_kreisfrei}
+
+f_pp_kreisfrei
+```
+
+```{r f_pp_bevoelkerung}
+f_pp_bevoelkerung
+```
+
